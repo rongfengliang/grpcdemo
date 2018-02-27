@@ -4,7 +4,7 @@ option go_package="userlogin";
 service UserLogin{
     rpc AppLogin(UserLoginRequest) returns(UserLoginResponse);
     rpc TokenVerify(UserTokenRequest) returns(TokenVerifyResponse);
-    rpc LongMessage(stream QueryRequst) returns(stream MessageResponse);
+    rpc LongMessage(QueryRequst) returns(stream MessageResponse);
  }
  message UserLoginRequest{
     string name =1;

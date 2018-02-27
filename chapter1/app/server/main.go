@@ -27,10 +27,10 @@ func (s *server) TokenVerify(ctx context.Context, in *pb.UserTokenRequest) (*pb.
 		Isverify: true,
 	}, nil
 }
-func (s *server) LongMessage(stream pb.UserLogin_LongMessageServer) error {
-	for {
+func (s *server) LongMessage(m *pb.QueryRequst, stream pb.UserLogin_LongMessageServer) error {
+	for i := 0; i < 10; i++ {
 		if err := stream.Send(&pb.MessageResponse{
-			Message: "dalongdemo",
+			Message: "dalongdemodddd",
 			Code:    0,
 		}); err != nil {
 			return err
