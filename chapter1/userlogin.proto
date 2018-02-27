@@ -1,0 +1,35 @@
+syntax = "proto3";
+package platform.login;
+option go_package="userlogin";
+service UserLogin{
+    rpc AppLogin(UserLoginRequest) returns(UserLoginResponse);
+    rpc TokenVerify(UserTokenRequest) returns(TokenVerifyResponse);
+    rpc LongMessage(stream QueryRequst) returns(stream MessageResponse);
+ }
+ message UserLoginRequest{
+    string name =1;
+    string password=2;
+ }
+ message UserTokenRequest{
+     string token=1;
+ }
+ message QueryRequst{
+     string userid=1;
+     string messageversion=2;
+ }
+ message UserLoginResponse{
+    int32 code=1;
+    string message=2;
+    string token=3;
+ }
+
+message TokenVerifyResponse{
+    bool isverify=1;
+    int32 code =2;
+    string message=3;
+}
+message MessageResponse{
+    int32 code =1;
+    string message=2;
+}
+
