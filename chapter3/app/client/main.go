@@ -14,9 +14,7 @@ func main() {
 		log.Fatal("connect error")
 	}
 	client := pb.NewUserLoginClient(con)
-	result, err := client.Platlogin(context.Background(), &pb.LoginEntity{
-		Usertype: pb.UserType_ADMIN,
-	})
+	result, err := client.Platlogin(context.Background(), &pb.LoginEntityUser{})
 	if err != nil {
 		log.Println("request is error")
 	}
