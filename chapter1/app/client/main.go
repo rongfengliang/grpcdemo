@@ -36,11 +36,12 @@ func main() {
 	}
 	log.Printf("Greeting: %s", r.Token)
 
-	// test with new context must be fail
-	r2, err := c.AppLogin(context.Background(), &pb.UserLoginRequest{
+	// test with new context must be fail is pass a new context
+	r2, err := c.AppLogin(ctx, &pb.UserLoginRequest{
 		Name:     "dalongdemo",
 		Password: "dalongdemo",
 	})
+
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
@@ -51,5 +52,14 @@ func main() {
 		log.Println("is ok")
 	}
 	log.Printf("Greeting: %s", r2.Token)
+	client, err := c.LongMessage(ctx, &pb.QueryRequst{
+		Userid:         "60667",
+		Messageversion: "v1",
+	})
+	if err != nil {
+		log.Fatalf("some wrong with stream")
+	}
+	mess, _ := client.Recv()
+	log.Println(mess.Message)
 	wg.Wait()
 }
