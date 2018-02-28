@@ -9,7 +9,7 @@ import (
 	"golang.org/x/net/context"
 	"google.golang.org/grpc"
 
-	gw "git.yonyou.com/go/grpcdemo/chapter2"
+	gw "github.com/rongfengliang/grpcdemo"
 )
 
 var (
