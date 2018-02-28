@@ -1,0 +1,7 @@
+syntax ="proto3";
+message Export{
+    string exporttype=1;
+    string exporturl=2;
+    string webhookurl=3;
+    string webhooksecurity=4;
+}
