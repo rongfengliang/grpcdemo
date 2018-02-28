@@ -27,7 +27,6 @@ func main() {
 	md := metadata.Pairs("authorization", "token dalong")
 	c := pb.NewUserLoginClient(conn)
 	ctx := metadata.NewOutgoingContext(context.Background(), md)
-	grpc.SendHeader(ctx, md)
 	r, err := c.AppLogin(ctx, &pb.UserLoginRequest{
 		Name:     "dalongdemo",
 		Password: "dalongdemo",
@@ -37,7 +36,8 @@ func main() {
 	}
 	log.Printf("Greeting: %s", r.Token)
 
-	r2, err := c.AppLogin(ctx, &pb.UserLoginRequest{
+	// test with new context must be fail
+	r2, err := c.AppLogin(context.Background(), &pb.UserLoginRequest{
 		Name:     "dalongdemo",
 		Password: "dalongdemo",
 	})
