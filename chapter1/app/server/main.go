@@ -5,8 +5,11 @@ import (
 	"log"
 	"net"
 
+	"github.com/grpc-ecosystem/go-grpc-middleware/auth"
+	"github.com/grpc-ecosystem/go-grpc-middleware/tags"
 	pb "github.com/rongfengliang/grpcdemo/chapter1/rpc"
 	grpc "google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/reflection"
 )
 
@@ -43,12 +46,41 @@ const (
 	port = "0.0.0.0:5001"
 )
 
+func parseToken(token string) (struct{}, error) {
+	return struct{}{}, nil
+}
+func myfunc(ctx context.Context) (context.Context, error) {
+	token, err := grpc_auth.AuthFromMD(ctx, "token")
+	if err != nil {
+		return nil, err
+	}
+	tokenInfo, err := parseToken(token)
+
+	if err != nil {
+		return nil, grpc.Errorf(codes.Unauthenticated, "invalid auth token: %v", err)
+	}
+	if token != "dalong" {
+		return nil, grpc.Errorf(codes.Unauthenticated, "invalid auth token: %v", err)
+	}
+	grpc_ctxtags.Extract(ctx).Set("auth.sub", "dalongdemo")
+	newCtx := context.WithValue(ctx, "tokenInfo", tokenInfo)
+	return newCtx, nil
+}
 func main() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
-	s := grpc.NewServer()
+	/*
+			grpc.StreamInterceptor(grpc_middleware.ChainStreamServer(
+			grpc_auth.StreamServerInterceptor(myfunc),
+		)),
+			grpc.UnaryInterceptor(grpc_middleware.ChainUnaryServer(
+				grpc_auth.UnaryServerInterceptor(myfunc),
+			))
+	*/
+	s := grpc.NewServer(grpc.StreamInterceptor(grpc_auth.StreamServerInterceptor(myfunc)),
+		grpc.UnaryInterceptor(grpc_auth.UnaryServerInterceptor(myfunc)))
 	pb.RegisterUserLoginServer(s, &server{})
 	// Register reflection service on gRPC server.
 	reflection.Register(s)

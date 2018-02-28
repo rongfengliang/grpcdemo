@@ -8,6 +8,7 @@ import (
 
 	pb "github.com/rongfengliang/grpcdemo/chapter1/rpc"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 )
 
 const (
@@ -23,8 +24,11 @@ func main() {
 		log.Fatalf("did not connect: %v", err)
 	}
 	defer conn.Close()
+	md := metadata.Pairs("authorization", "token dalong")
 	c := pb.NewUserLoginClient(conn)
-	r, err := c.AppLogin(context.Background(), &pb.UserLoginRequest{
+	ctx := metadata.NewOutgoingContext(context.Background(), md)
+	grpc.SendHeader(ctx, md)
+	r, err := c.AppLogin(ctx, &pb.UserLoginRequest{
 		Name:     "dalongdemo",
 		Password: "dalongdemo",
 	})
@@ -32,26 +36,20 @@ func main() {
 		log.Fatalf("could not greet: %v", err)
 	}
 	log.Printf("Greeting: %s", r.Token)
-	messageclient, err := c.LongMessage(context.Background(), &pb.QueryRequst{
-		Messageversion: "v1",
-		Userid:         "60667",
+
+	r2, err := c.AppLogin(ctx, &pb.UserLoginRequest{
+		Name:     "dalongdemo",
+		Password: "dalongdemo",
 	})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	go func() {
-		mess, err := messageclient.Recv()
-		if err != nil {
-			log.Fatalf("could not greet: %v", err)
-		}
-		messageclient.SendMsg(
-			&pb.QueryRequst{
-				Userid:         "dddddddd",
-				Messageversion: "v1",
-			},
-		)
-		log.Println(mess.Message)
-	}()
-
+	result, err := c.TokenVerify(ctx, &pb.UserTokenRequest{
+		Token: r2.Token,
+	})
+	if result.Isverify {
+		log.Println("is ok")
+	}
+	log.Printf("Greeting: %s", r2.Token)
 	wg.Wait()
 }
