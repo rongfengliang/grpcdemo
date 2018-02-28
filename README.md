@@ -7,3 +7,8 @@
 - chapter2 
 
    basic demo with grpc-gateway
+
+- chapter3
+   
+   protobuf demo
+  

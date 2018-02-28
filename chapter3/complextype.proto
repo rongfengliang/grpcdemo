@@ -1,0 +1,29 @@
+syntax ="proto3";
+import  "github.com/rongfengliang/grpcdemo/platform/platform.proto";
+message User{
+    UserType usertype=1;
+    Export export=3;
+    enum AppType{
+        UERAPP=0;
+        DEFAULTAPP=1;
+        PLATFORMAPP=2;
+    }
+}
+service UserLogin{
+    rpc platlogin(LoginEntity) returns(TokenResponse);
+}
+message LoginEntity{
+    UserType usertype=1;
+    string name=2;
+    string password=3;
+}
+message TokenResponse{
+    int32 code=1;
+    string token=2;
+    string message=3;
+}
+enum UserType{
+    ADMIN=0;
+    PERSONAL=1;
+    PLATADMIN=2;
+}
