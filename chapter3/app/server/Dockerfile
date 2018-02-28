@@ -5,7 +5,7 @@ ENV D=/go/src/github.com/rongfengliang/grpserver
 ADD . $D
 RUN cd $D && go build -o grpserver && cp grpserver /tmp/
 
-FROM alpine:latest
+FROM debian:jessie-slim
 WORKDIR /app
 EXPOSE 9080
 COPY --from=build-env /tmp/grpserver /app/grpserver
