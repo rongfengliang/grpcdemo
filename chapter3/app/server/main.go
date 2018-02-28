@@ -11,7 +11,7 @@ import (
 
 type server struct{}
 
-func (s *server) Platlogin(ctx context.Context, in *pb.LoginEntity) (*pb.TokenResponse, error) {
+func (s *server) Platlogin(ctx context.Context, in *pb.LoginEntityUser) (*pb.TokenResponse, error) {
 	return &pb.TokenResponse{
 		Code:    1,
 		Message: "isok",

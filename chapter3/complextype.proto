@@ -9,8 +9,12 @@ message User{
         PLATFORMAPP=2;
     }
 }
+message LoginEntityUser{
+    LoginEntity loginentity=1;
+    User   user=2;
+}
 service UserLogin{
-    rpc platlogin(LoginEntity) returns(TokenResponse);
+    rpc platlogin(LoginEntityUser) returns(TokenResponse);
 }
 message LoginEntity{
     UserType usertype=1;
