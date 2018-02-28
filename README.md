@@ -12,3 +12,6 @@
    
    protobuf demo
   
+- platform
+
+   common protobuf project
