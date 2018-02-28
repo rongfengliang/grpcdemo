@@ -5,6 +5,7 @@ import (
 	"log"
 
 	pb "github.com/rongfengliang/grpcdemo/chapter3"
+	platform "github.com/rongfengliang/grpcdemo/platform"
 	grpc "google.golang.org/grpc"
 )
 
@@ -14,7 +15,22 @@ func main() {
 		log.Fatal("connect error")
 	}
 	client := pb.NewUserLoginClient(con)
-	result, err := client.Platlogin(context.Background(), &pb.LoginEntityUser{})
+	result, err := client.Platlogin(context.Background(), &pb.LoginEntityUser{
+		User: &pb.User{
+			Usertype: pb.UserType_ADMIN,
+			Export: &platform.Export{
+				Exporttype:      "dalongdemo",
+				Exporturl:       "https://github.com/rongfengliang",
+				Webhookurl:      "https://github.com/rongfengliang",
+				Webhooksecurity: "appdemo",
+			},
+		},
+		Loginentity: &pb.LoginEntity{
+			Usertype: pb.UserType_ADMIN,
+			Name:     "dalong",
+			Password: "appdemo",
+		},
+	})
 	if err != nil {
 		log.Println("request is error")
 	}
