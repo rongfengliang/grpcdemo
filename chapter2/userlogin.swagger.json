@@ -1,0 +1,162 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "userlogin.proto",
+    "version": "version not set"
+  },
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/v1/api/delete": {
+      "post": {
+        "operationId": "Delte",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginOperatorResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginAppRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AppList"
+        ]
+      }
+    },
+    "/v1/api/echo": {
+      "post": {
+        "operationId": "Echo",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginStringMessage"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginStringMessage"
+            }
+          }
+        ],
+        "tags": [
+          "AppList"
+        ]
+      }
+    },
+    "/v1/api/list": {
+      "post": {
+        "operationId": "List",
+        "responses": {
+          "200": {
+            "description": "",
+            "schema": {
+              "$ref": "#/definitions/loginAppListResponse"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/loginAppRequest"
+            }
+          }
+        ],
+        "tags": [
+          "AppList"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "loginAppInfo": {
+      "type": "object",
+      "properties": {
+        "appid": {
+          "type": "string"
+        },
+        "appname": {
+          "type": "string"
+        },
+        "appdescribe": {
+          "type": "string"
+        }
+      }
+    },
+    "loginAppListResponse": {
+      "type": "object",
+      "properties": {
+        "applist": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/loginAppInfo"
+          }
+        },
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "loginAppRequest": {
+      "type": "object",
+      "properties": {
+        "appid": {
+          "type": "string"
+        }
+      }
+    },
+    "loginOperatorResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "result": {
+          "type": "string"
+        }
+      }
+    },
+    "loginStringMessage": {
+      "type": "object",
+      "properties": {
+        "value": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

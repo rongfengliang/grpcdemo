@@ -1,0 +1,45 @@
+syntax ="proto3";
+package platform.login;
+option go_package="userlogin";
+import "google/api/annotations.proto";
+service AppList{
+    rpc List(AppRequest) returns(AppListResponse){
+        option (google.api.http) = {
+            post: "/v1/api/list"
+            body: "*"
+          };
+    }
+    rpc Delte(AppRequest) returns(OperatorResponse){
+        option (google.api.http) = {
+            post: "/v1/api/delete"
+            body: "*"
+          };
+      }
+    rpc Echo(StringMessage) returns (StringMessage) {
+          option (google.api.http) = {
+              post: "/v1/api/echo"
+              body: "*"
+            };
+      }
+}
+message StringMessage{
+    string value = 1;
+}
+message AppRequest{
+    string appid=1;
+}
+message AppListResponse{
+    repeated AppInfo applist=1;
+    int32 code=2;
+    string message=3;
+}
+message AppInfo {
+    string appid=1;
+    string appname=2;
+    string appdescribe=3;
+}
+message OperatorResponse{
+    int32 code=1;
+    string message=2;
+    string result=3;
+}
