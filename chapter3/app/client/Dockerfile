@@ -5,7 +5,7 @@ ENV D=/go/src/github.com/rongfengliang/grpcclient
 ADD . $D
 RUN cd $D && go build -o grpcclient && cp grpcclient /tmp/
 
-FROM olang:1.9-alpine
+FROM golang:1.9-alpine
 WORKDIR /app
 COPY --from=build-env /tmp/grpcclient /app/grpcclient
 CMD ["./grpcclient"]
