@@ -7,5 +7,6 @@ RUN cd $D && go build -o grpserver && cp grpserver /tmp/
 
 FROM alpine:latest
 WORKDIR /app
+EXPOSE 9080
 COPY --from=build-env /tmp/grpserver /app/grpserver
 CMD ["./grpserver"]
